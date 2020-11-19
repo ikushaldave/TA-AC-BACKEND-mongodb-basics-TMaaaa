@@ -3,7 +3,17 @@ writeCode
 Write code to execute below expressions.
 
 1. Create a database named `blog`.
+
+```
+use blog
+```
+
 2. Create a collection called 'articles'.
+
+```
+db.createCollection("articles")
+```
+
 3. Insert multiple documents(at least 3) into articles. It should have fields
 
 - title as string
@@ -32,24 +42,125 @@ Write code to execute below expressions.
 }
 ```
 
+```
+var articles = [
+	{
+		title: "What is Bitcoin?",
+		date: "2019-08-02",
+		details: "Bitcoin uses peer-to-peer technology to operate with no central authority or banks; managing transactions and the issuing of bitcoins is carried out collectively by the network.",
+		author: {
+			name: "Yugal",
+			email: "yugal@xyz.com",
+			age: 18,
+		},
+		tags: ["technology", "software"],
+	},
+	{
+		title: "What is HTML & CSS?",
+		date: "2019-12-24",
+		details: "Bitcoin uses peer-to-peer technology to operate with no central authority or banks; managing transactions and the issuing of bitcoins is carried out collectively by the network.",
+		author: {
+			name: "itzme",
+			email: "itzme@xyz.com",
+			age: 24,
+		},
+		tags: ["programming", "software", "HTML", "CSS"],
+	},
+	{
+		title: "What is Mongodb",
+		date: "2020-08-13",
+		details: "Bitcoin uses peer-to-peer technology to operate with no central authority or banks; managing transactions and the issuing of bitcoins is carried out collectively by the network.",
+		author: {
+			name: "kushal",
+			email: "kushal@xyz.com",
+			age: 20,
+		},
+		tags: ["programming", "software", "database", "mongodb"],
+	},
+];
+
+db.articles.insertMany(articles)
+```
+
 4. Find all the articles using `db.COLLECTION_NAME.find()`
-5. Find a document using \_id field.
-6. 1. Find documents using title
-7. 2. Find documents using author's name field.
+
+```
+db.articles.find().pretty()
+```
+
+5. Find a document using _id field.
+
+```
+db.articles.find({_id: ObjectId("5fb6896c38b7340edf79ba65")}).pretty()
+```
+
+6. Find documents using title
+
+```
+db.articles.find({title: "What is Mongodb"}).pretty()
+```
+
+7. Find documents using author's name field.
+
+```
+db.articles.find({"author.name": "itzme"}).pretty()
+```
+
 8. Find document using a specific tag.
 
-9. Update title of a document using its \_id field.
+```
+db.articles.find({tags: "mongodb"}).pretty()
+```
+
+9. Update title of a document using its _id field.
+
+```
+db.articles.update({_id: ObjectId("5fb6896c38b7340edf79ba65")}, {$set: {title: "Power of bitcoin"}})
+```
+
 10. Update a author's name using article's title.
+
+```
+db.articles.update({"author.name": "itzme"}, {$set: {"author.name": "ankur"}})
+```
+
 11. rename details field to description from all articles in articles collection.
+
+```
+db.articles.updateMany( {}, { $rename: { "details": "description" } } )
+```
+
 12. Add additional tag in a specific document.
+
+```
+db.articles.update({_id: ObjectId("5fb697392eeb6199abb8310a")}, {$push: {"tags": "www"}})
+```
 
 13. Update an article's title using $set and without $set.
 
+```
+db.articles.update({_id: ObjectId("5fb697392eeb6199abb8310a")}, {$set: {title: "Power of bitcoin"}})
+
+db.articles.update({_id: ObjectId("5fb697392eeb6199abb8310a")}, {title: "Power of bitcoin"})
+```
+
 - Write the differences here ?
 
-13. find an article using title and increment it's auhtor's age by 5.
+```
+using $set will patch a particular field in document while without set will replace the who document with passed information
+```
 
-14. Delete a document using \_id field with `db.COLLECTION_NAME.remove()`.
+13. find an article using title and increment it's author's age by 5.
+
+```
+db.articles.update({_id: ObjectId("5fb697392eeb6199abb8310c")}, {$inc: {"author.age": 5}})
+```
+
+14. Delete a document using _id field with `db.COLLECTION_NAME.remove()`.
+
+```
+db.articles.remove({"title" : "Power of bitcoins"})
+```
 
 // Sample data
 
@@ -168,6 +279,25 @@ db.users.insertMany([
 Insert above data into database to perform below queries:-
 
 - Find all males who play cricket.
+
+```
+db.users.find({"sports": "cricket"})
+```
+
 - Update user with extra golf field in sports array whose name is "Steve Ortega".
+
+```
+db.users.find({name: "Steve Ortega"}).pretty()
+```
+
 - Find all users who play either 'football' or 'cricket'.
+
+```
+db.users.find({sports: {$in: ["football", "cricket"]}}).pretty()
+```
+
 - Find all users whose name includes 'ri' in their name.
+
+```
+db.users.find({sports: {$in: ["football", "cricket"]}}).pretty()
+```
