@@ -43,17 +43,25 @@ Go to `https://www.json-generator.com/`
 - download it on `Desktop`
 - import it into mongodb `test` database into a collection named `users`
 
+```
+mongoimport --host localhost:27017 --db test --collection users --file ~/Downloads/generated.json
+```
+
 #### Export data from mongodb server to local system in json format using
 
 `mongoexport`command.
 
 ```
-mongoexport --db state --collection cities --out ~/Desktop/states/city.json --jsonArray
+mongoexport --db=state --collection cities --out ~/Desktop/states/city.json --jsonArray
 ```
 
 ## BLOCK-writeCode
 
 Export `users` collection from `test` database onto `Desktop` in a file named `exported.json`.
+
+```
+mongoexport --host="localhost" --port=27017 --collection=users --db=test --out=users.json
+```
 
 #### Import from csv file
 
@@ -66,3 +74,7 @@ mongoimport -d DB_NAME -c COLLECTION_NAME --type csv --file elections.csv(file l
 Generate mock csv data from `https://www.convertcsv.com/generate-test-data.htm`
 
 - insert this mock csv data into `test` database into a collection named `students`
+
+```
+mongoimport --host localhost --port 27017 --db test --collection students --type csv --file ~/Downloads/convertcsv.csv --headerline
+```
